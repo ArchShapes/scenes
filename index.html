@@ -49,7 +49,7 @@ p{position:relative;z-index:3;margin-top:3vh;color:var(--pc,var(--ink));font-fam
 .hot:hover .gear,.hot:hover .bar,.hot:focus-within .gear,.hot:focus-within .bar{opacity:1}
 .hot:hover .gear svg{animation:spin 1.6s linear infinite}
 .is-loading .hot,.clean .hot{display:none}
-.panel{position:fixed;z-index:40;right:16px;top:80px;transform:rotate(-1deg);width:min(94vw,780px);max-height:calc(100vh - 100px);display:flex;flex-direction:column;overflow:hidden;background:var(--card);border:3px solid var(--ink);padding:0;box-shadow:6px 6px 0 var(--ink);color:var(--ink);font-family:var(--fb,"Caveat",cursive);font-size:22px;font-weight:700;text-align:left}
+.panel{position:fixed;z-index:40;right:16px;top:80px;width:min(94vw,780px);min-width:min(94vw,320px);max-width:100vw;max-height:calc(100vh - 100px);resize:both;display:flex;flex-direction:column;overflow:hidden;background:var(--card);border:3px solid var(--ink);padding:0;box-shadow:6px 6px 0 var(--ink);color:var(--ink);font-family:var(--fb,"Caveat",cursive);font-size:22px;font-weight:700;text-align:left}
 .panel[hidden]{display:none}
 .panel h2{font:400 30px "Permanent Marker",cursive;margin-bottom:4px}
 .panel .sec,.panel summary{font:400 19px "Permanent Marker",cursive;margin:16px 0 6px;opacity:.85;cursor:pointer}
@@ -103,17 +103,17 @@ p{position:relative;z-index:3;margin-top:3vh;color:var(--pc,var(--ink));font-fam
 .panel,.plate,.clock,.panel input,.panel select,.panel textarea,.panel button,.bar button,.filebtn,.ticker{border-radius:var(--rad,0)}
 .panel input,.panel select,.panel textarea,.panel button{font-family:inherit}
 .panel h2,.panel .sec,.panel summary,.plate,.clock{font-family:var(--ft)}
-.phead{display:flex;align-items:center;justify-content:space-between;padding:16px 22px 6px}
-.phead h2{margin:0}
+.phead{flex:none;display:flex;align-items:stretch;justify-content:space-between;height:40px;padding:0 0 0 16px;background:var(--ink);color:var(--card);cursor:default;user-select:none;-webkit-user-select:none;touch-action:none}
+.phead h2{margin:0;align-self:center;color:var(--card);font-size:22px;line-height:1}
 .panel .x{background:transparent;color:var(--ink);font-size:32px;line-height:1;padding:0 10px;margin:0;border:0}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:6px 22px 12px;border-bottom:2px solid var(--ink)}
+.tabs{flex:none;display:flex;gap:6px;flex-wrap:wrap;padding:6px 22px 12px;border-bottom:2px solid var(--ink)}
 .panel .tabs button{background:transparent;color:var(--ink);margin:0;padding:3px 14px}
 .panel .tabs button.on{background:#9be8b0;color:#1d1d22}
 .pbody{overflow:auto;padding:8px 22px;flex:1}
 .tab{display:none;grid-template-columns:1fr 1fr;column-gap:22px;align-items:start}
 .tab.on{display:grid}
 .tab .full{grid-column:1/-1}
-.pfoot{display:flex;align-items:center;gap:12px;padding:12px 22px;border-top:2px solid var(--ink)}
+.pfoot{display:flex;align-items:center;gap:12px;padding:12px 30px 12px 22px;flex:none;border-top:2px solid var(--ink)}
 .pfoot .hint{margin:0;flex:1}
 @media(max-width:600px){.tab{grid-template-columns:1fr}}
 @keyframes pollen{to{background-position:-18vh -22vh}}
@@ -172,6 +172,32 @@ p{position:relative;z-index:3;margin-top:3vh;color:var(--pc,var(--ink));font-fam
 .th-dream .panel,.th-dream .plate,.th-dream .clock{box-shadow:0 0 3vh rgba(255,154,213,.6)}
 .th-dream .panel{font-size:25px;font-weight:400}.th-dream .panel input,.th-dream .panel select,.th-dream .panel textarea{font-weight:400}
 
+/* ---- settings window (Windows-style title bar) ---- */
+.panel .wctl{display:flex}
+.panel .wbtn{display:flex;align-items:center;justify-content:center;width:46px;height:auto;margin:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--card);font-size:20px;cursor:pointer}
+.panel .wbtn svg{width:11px;height:11px;display:block;fill:none;stroke:currentColor;stroke-width:1.2}
+.panel .wbtn:hover{background:color-mix(in srgb,var(--card) 22%,transparent)}
+.panel .wbtn.x:hover{background:#e81123;color:#fff}
+.panel .wbtn:focus-visible{outline:2px solid var(--card);outline-offset:-4px}
+.panel.moved{max-height:calc(100vh - 16px)}
+.panel.drag{opacity:.92}
+.panel.narrow .tab{grid-template-columns:1fr}
+.panel.min{height:auto!important;min-height:0!important;resize:none}
+.panel.min .tabs,.panel.min .pbody,.panel.min .pfoot{display:none}
+.panel.max{left:0!important;top:0!important;right:auto!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;resize:none;border-width:0;box-shadow:none}
+.panel.max.min{height:auto!important}
+/* ---- custom dropdown ---- */
+.cdd{position:relative}
+.panel .cdd-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:4px 0 10px;padding:5px 8px;text-align:left;font-family:inherit;font-weight:700;font-size:21px;color:var(--ink);background:var(--field);border:2px solid var(--ink);cursor:pointer}
+.panel .cdd-btn:focus-visible{outline:3px solid #6a2cff}
+.cdd-arrow{width:14px;height:9px;flex:none;fill:none;stroke:currentColor;stroke-width:2;transition:transform .15s}
+.cdd-btn[aria-expanded=true] .cdd-arrow{transform:rotate(180deg)}
+.cdd-list{position:fixed;z-index:60;margin:0;padding:0;list-style:none;max-height:40vh;overflow:auto;background:var(--field);color:var(--ink);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);border-radius:var(--rad,0);font-family:inherit;font-weight:700;font-size:21px}
+.cdd-list li{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;cursor:pointer}
+.cdd-list li.act{background:#9be8b0;color:#1d1d22}
+.cdd-list li[aria-selected=true]::after{content:"\2713"}
+.th-dream .panel .cdd-btn,.th-dream .cdd-list{font-weight:400}
+
 .gear-start-flash{
   animation:gearStartFlash .28s ease-in-out 4;
 }
@@ -199,7 +225,7 @@ p{position:relative;z-index:3;margin-top:3vh;color:var(--pc,var(--ink));font-fam
 <div class="plate" id="plate" hidden></div>
 <div class="fx"></div>
 <div class="panel" id="panel" hidden role="dialog" aria-label="Settings">
- <div class="phead"><h2>Settings</h2><button class="x" aria-label="Close">&times;</button></div>
+ <div class="phead"><h2>Settings</h2><div class="wctl"><button class="wbtn" id="wmin" aria-label="Minimize" title="Minimize"><svg viewBox="0 0 10 10"><path d="M0 5.5h10"/></svg></button><button class="wbtn" id="wmax" aria-label="Maximize" title="Maximize"><svg viewBox="0 0 10 10"><rect x=".6" y=".6" width="8.8" height="8.8"/></svg></button><button class="wbtn x" aria-label="Close" title="Close"><svg viewBox="0 0 10 10"><path d="M.5.5l9 9M9.5.5l-9 9"/></svg></button></div></div>
  <div class="tabs"><button data-t="general" class="on">General</button><button data-t="scenes">Scenes</button><button data-t="look">Look</button><button data-t="sound">Sound</button><button data-t="keys">Keys</button><button data-t="backup">Backup</button></div>
  <div class="pbody">
   <div class="tab on" data-tab="general">
@@ -228,7 +254,7 @@ p{position:relative;z-index:3;margin-top:3vh;color:var(--pc,var(--ink));font-fam
    <label class="fld full">OBS link for this scene<input id="lnk" readonly></label>
   </div>
   <div class="tab" data-tab="look">
-   <label class="fld full">Theme<select id="theme"><option value="drawing-dark">Drawing - Dark</option><option value="drawing-light">Drawing - Light</option><option value="minecraft-dark">Minecraft - Dark</option><option value="minecraft-light">Minecraft - Light</option><option value="natural-dark">Natural - Dark</option><option value="natural-light">Natural - Light</option><option value="dream-dark">Dreamcore - Dark</option><option value="dream-light">Dreamcore - Light</option></select></label>
+   <div class="fld full">Theme<div class="cdd" id="theme"><button type="button" class="cdd-btn" id="theme-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Theme"><span class="cdd-val">Drawing</span><svg class="cdd-arrow" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4"/></svg></button><ul class="cdd-list" role="listbox" aria-label="Theme" hidden><li role="option" data-v="drawing">Drawing</li><li role="option" data-v="minecraft">Minecraft</li><li role="option" data-v="natural">Natural</li><li role="option" data-v="dream">Dreamcore</li></ul></div></div>
    <label class="row"><input type="checkbox" id="dk"> Dark mode</label>
    <label class="row"><input type="checkbox" id="pulse-on"> Pulse to the beat</label>
    <label class="fld">Paper (Drawing theme)<select id="bg"><option value="grid">Graph</option><option value="lined">Lined</option><option value="dots">Dots</option><option value="plain">Plain</option></select></label>
@@ -332,7 +358,7 @@ function applyAudio(){BPM=S.bpm;S16=60/BPM/4;if(AC){master.gain.setTargetAtTime(
 function applyAll(){
  var h=document.documentElement;h.classList.toggle("night",!!S.dark);h.style.setProperty("--fade",S.fade+"ms");h.style.setProperty("--ts",S.tsize/100);
  ["grid","lined","dots","plain"].forEach(function(b){h.classList.toggle("bg-"+b,S.bg===b)});
- ["drawing","minecraft","natural","dream"].forEach(function(f){h.classList.toggle("th-"+f,S.family===f)});$("theme").value=S.family+"-"+(S.dark?"dark":"light");$("dk").checked=!!S.dark;$("bg").disabled=S.family!=="drawing";
+ ["drawing","minecraft","natural","dream"].forEach(function(f){h.classList.toggle("th-"+f,S.family===f)});setThemeUI(S.family);$("dk").checked=!!S.dark;$("bg").disabled=S.family!=="drawing";
  h.classList.toggle("has-ticker",!!S.ticker.trim());
  S.scenes.forEach(function(x){var sc=$(x.id);if(!sc)return;var sub=fill(x.sub);sc.querySelector("h1 span").textContent=fill(x.title);sc.querySelector("p").textContent=sub;sc.querySelector("p").style.display=sub?"":"none";sc.style.setProperty("--hlraw",x.hl||"#9be8b0")});
  var n=nameOf();$("plate").textContent=n;$("plate").hidden=!(S.plate&&n);
@@ -438,11 +464,62 @@ rb.onclick=function(){
  if(rb.dataset.arm){S=DEF();save();reload();rb.textContent="Reset all";delete rb.dataset.arm;clearTimeout(rt)}
  else{rb.dataset.arm=1;rb.textContent="Sure? Click again";rt=setTimeout(function(){rb.textContent="Reset all";delete rb.dataset.arm},3000)}
 };
-function togglePanel(open){panel.hidden=!open;if(open)$("nm").focus()}
+function togglePanel(open){panel.hidden=!open;if(open){panel.classList.remove("min");if(PW.x!=null&&!panel.style.left)placePanel(PW.x,PW.y);else clampPanel();$("nm").focus()}else ddClose()}
 $("gear").onclick=function(){togglePanel(panel.hidden)};
 document.querySelectorAll("#pclose,.panel .x").forEach(function(b){b.onclick=function(){togglePanel(false)}});
 document.querySelectorAll(".tabs button").forEach(function(b){b.onclick=function(){document.querySelectorAll(".tabs button").forEach(function(x){x.classList.toggle("on",x===b)});document.querySelectorAll(".tab").forEach(function(t){t.classList.toggle("on",t.dataset.tab===b.dataset.t)})}});
-$("theme").addEventListener("change",function(){var v=this.value.split("-");S.family=v[0];S.dark=v[1]==="dark"?1:0;save();build()});
+/* custom theme dropdown (dark / light is the Dark mode checkbox) */
+var dd=$("theme"),ddBtn=$("theme-btn"),ddList=dd.querySelector(".cdd-list"),ddOpts=[].slice.call(ddList.children),ddAct=0;
+function setThemeUI(v){var o=ddOpts.filter(function(x){return x.dataset.v===v})[0];ddBtn.querySelector(".cdd-val").textContent=o?o.textContent:v;ddOpts.forEach(function(x){x.setAttribute("aria-selected",x===o?"true":"false")})}
+function ddHl(i){ddAct=i;ddOpts.forEach(function(x,j){x.classList.toggle("act",j===i)})}
+function ddClose(){if(ddList.hidden)return;ddList.hidden=true;ddBtn.setAttribute("aria-expanded","false")}
+function ddOpen(){
+ ddList.hidden=false;ddBtn.setAttribute("aria-expanded","true");
+ var r=ddBtn.getBoundingClientRect();ddList.style.width=r.width+"px";ddList.style.left=r.left+"px";
+ var h=ddList.offsetHeight,t=r.bottom+2;if(t+h>innerHeight-8&&r.top-h-2>8)t=r.top-h-2;ddList.style.top=t+"px";
+ var si=0;ddOpts.forEach(function(x,j){if(x.getAttribute("aria-selected")==="true")si=j});ddHl(si)}
+function ddPick(i){var v=ddOpts[i].dataset.v;ddClose();ddBtn.focus();if(v!==S.family){S.family=v;save();build()}}
+ddBtn.addEventListener("click",function(e){if(e.detail===0)return;ddList.hidden?ddOpen():ddClose()});
+ddOpts.forEach(function(o,i){o.addEventListener("mouseenter",function(){ddHl(i)});o.addEventListener("click",function(){ddPick(i)})});
+ddList.addEventListener("mousedown",function(e){e.preventDefault()});
+dd.addEventListener("keydown",function(e){
+ if(e.key==="Tab")return;
+ if(e.key==="Escape"){if(!ddList.hidden){e.stopPropagation();e.preventDefault();ddClose()}return}
+ e.stopPropagation();
+ var o=!ddList.hidden;
+ if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();if(!o){ddOpen();return}ddHl(Math.max(0,Math.min(ddOpts.length-1,ddAct+(e.key==="ArrowDown"?1:-1))))}
+ else if(e.key==="Home"&&o){e.preventDefault();ddHl(0)}
+ else if(e.key==="End"&&o){e.preventDefault();ddHl(ddOpts.length-1)}
+ else if(e.key==="Enter"||e.key===" "){e.preventDefault();o?ddPick(ddAct):ddOpen()}
+});
+dd.addEventListener("focusout",function(e){if(!dd.contains(e.relatedTarget))ddClose()});
+document.addEventListener("pointerdown",function(e){if(!ddList.hidden&&!dd.contains(e.target))ddClose()});
+document.querySelector(".pbody").addEventListener("scroll",ddClose);
+window.addEventListener("resize",ddClose);
+
+/* settings window: draggable title bar, minimize / maximize / close, resizable corner */
+var PWK="scenes-panel",PW={};try{PW=JSON.parse(localStorage.getItem(PWK)||"{}")||{}}catch(e){}
+function placePanel(x,y){
+ var w=panel.offsetWidth;
+ x=Math.min(Math.max(x,60-w),innerWidth-60);y=Math.min(Math.max(y,0),innerHeight-40);
+ panel.style.left=x+"px";panel.style.top=y+"px";panel.style.right="auto";panel.classList.add("moved")}
+function clampPanel(){if(panel.hidden||!panel.style.left||panel.classList.contains("max"))return;var r=panel.getBoundingClientRect();placePanel(r.left,r.top)}
+window.addEventListener("resize",clampPanel);
+var ph=document.querySelector(".phead"),dg=null;
+ph.addEventListener("pointerdown",function(e){
+ if(e.button!==0||e.target.closest("button")||panel.classList.contains("max"))return;
+ var r=panel.getBoundingClientRect();dg={dx:e.clientX-r.left,dy:e.clientY-r.top,id:e.pointerId};
+ ddClose();ph.setPointerCapture(e.pointerId);panel.classList.add("drag");e.preventDefault()});
+ph.addEventListener("pointermove",function(e){if(dg&&e.pointerId===dg.id)placePanel(e.clientX-dg.dx,e.clientY-dg.dy)});
+function endDrag(){if(!dg)return;dg=null;panel.classList.remove("drag");var r=panel.getBoundingClientRect();PW={x:r.left,y:r.top};try{localStorage.setItem(PWK,JSON.stringify(PW))}catch(e){}}
+ph.addEventListener("pointerup",endDrag);ph.addEventListener("pointercancel",endDrag);
+var ICO_MAX='<svg viewBox="0 0 10 10"><rect x=".6" y=".6" width="8.8" height="8.8"/></svg>',ICO_RES='<svg viewBox="0 0 10 10"><path d="M2.5 2.5V.6h6.9v6.9H7.5M.6 2.5h6.9v6.9H.6z"/></svg>';
+function toggleMax(){var m=panel.classList.toggle("max"),b=$("wmax");panel.classList.remove("min");ddClose();b.innerHTML=m?ICO_RES:ICO_MAX;b.title=m?"Restore":"Maximize";b.setAttribute("aria-label",b.title)}
+$("wmax").onclick=toggleMax;
+$("wmin").onclick=function(){ddClose();panel.classList.toggle("min")};
+ph.addEventListener("dblclick",function(e){if(!e.target.closest("button"))toggleMax()});
+if(window.ResizeObserver)new ResizeObserver(function(){panel.classList.toggle("narrow",panel.offsetWidth<560)}).observe(panel);
+
 if(/[?&]clean/.test(location.search))document.documentElement.classList.add("clean");
 reload();
 show(location.hash.slice(1));
@@ -502,7 +579,7 @@ document.addEventListener("keydown",function(e){
  if(k===g.dark){S.dark=S.dark?0:1;save();sync();applyAll()}
  else if(k===g.set){e.preventDefault();togglePanel(panel.hidden)}
  else if(k===g.music){S.music=S.music?0:1;save();sync();applyAll()}
- else if(k===g.load)go("loading");
+ else if(k===g.load||(k==="/"&&!S.scenes.some(function(y){return y.key==="/"}))){e.preventDefault();go("loading")}
  else{var x=S.scenes.filter(function(y){return y.key===k})[0];if(x)go(x.id)}
 });
 </script>
